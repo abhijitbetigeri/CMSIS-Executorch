@@ -57,8 +57,8 @@ Check `export.json`: `cpu_ops` should list only the quantize/dequantize boundary
 scripts/alif/build_dcops_demo.sh
 ```
 
-It configures `build-fusion` with the deployed vision (`v3_board_ft`) and KWS (`dscnn_m_agc`)
-models, `CLS_ALLOWED_MASK=0x13250`, `CLS_CONF_THRESHOLD=0.5`, builds, and prints the image end
+It configures `build-fusion` with the deployed vision (`v4_demo_ft`) and KWS (`dscnn_m_agc`)
+models, `CLS_ALLOWED_MASK=0x13250`, `CLS_CONF_THRESHOLD=0.6`, `KWS_THRESHOLD=0.5`, builds, and prints the image end
 address (deployed build: 0x805473C4, limit 0x80578000).
 
 Manual build: the classify build plus these options (see `source/app/use_case/alif_object_detection/usecase.cmake`):
@@ -66,14 +66,14 @@ Manual build: the classify build plus these options (see `source/app/use_case/al
 | Option | Demo value | Meaning |
 |---|---|---|
 | `-Dalif_object_detection_ET_TASK` | `CLASSIFY` | classifier task |
-| `-Dalif_object_detection_MODEL_PATH` | `resources/object_detection/dcops/dcops_v3_board_ft_ethos-u85-256.pte` | MobileNetV2 student, board-camera fine-tuned |
+| `-Dalif_object_detection_MODEL_PATH` | `resources/object_detection/dcops/dcops_v4_demo_ft_ethos-u85-256.pte` | MobileNetV2 student, board-camera fine-tuned on the demo classes |
 | `-Dalif_object_detection_CLASS_LABELS` | `labels.txt` | 16 classes + background |
 | `-Dalif_object_detection_CLS_ALLOWED_MASK` | `0x13250` | power shelf, network port, fan, power connector, drive bay (+ background); default all |
 | `-Dalif_object_detection_CLS_CONF_THRESHOLD` | `0.5` | smoothed top-1 needed to show a label |
 | `-Dalif_object_detection_CLS_EMA_ALPHA` | `0.3` (default) | EMA weight of the newest frame |
 | `-Dalif_object_detection_ENABLE_VOICE` | `ON` | second `.pte`: keyword spotter |
 | `-Dalif_object_detection_KWS_MODEL_PATH` | `resources/kws/dcops/dscnn_m_agc_ethos-u85-256.pte` | DS-CNN |
-| `-Dalif_object_detection_KWS_THRESHOLD` | `0.7` (default) | averaged softmax needed to fire |
+| `-Dalif_object_detection_KWS_THRESHOLD` | `0.5` (demo build; default 0.7) | averaged softmax needed to fire |
 | `-Dalif_object_detection_KWS_ACTIVATION_BUF_SZ` | `0x00020000` (default) | KWS arena, 128 KB |
 
 Info cards come from `dcops/dc_components.json` by default (`CLS_KNOWLEDGE_BASE`).

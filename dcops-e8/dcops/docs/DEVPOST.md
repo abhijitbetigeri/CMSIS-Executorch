@@ -35,7 +35,8 @@ export, the two-model E8 firmware and the voice workflow.
 
 | Say | Action |
 |---|---|
-| `go` | Latch the identified part and open its inspection checklist. The live label freezes. Only works when vision has a confident identification. |
+| `go` (or `yes` / `on`) | Latch the identified part and open its inspection checklist. The live label freezes. Only works when vision has a confident identification. |
+| `go` / `on` / `right` while holding | Next knowledge page: specs, troubleshooting, LED status, maintenance. `left` goes back. |
 | `yes` | Mark the selected item pass and advance. |
 | `no` | Mark it fail and advance. On item 1 ("is this the right part?"), `no` rejects the identification and returns to scanning. |
 | `up` / `down` | Move the cursor. |
@@ -54,7 +55,7 @@ export, the two-model E8 firmware and the voice workflow.
 - Board output matches the PC on the same captured frame: top-3 identical, e.g. background 66.4%
   on the board vs 66.4% on PC.
 - Demo build shows 5 classes the board camera separates reliably, measured on held-out slides:
-  73% of component frames labelled correctly, 6% wrong, the rest blank; 0% of background frames
+  79% of component frames labelled correctly, 7% wrong, the rest blank; 0% of background frames
   given a label.
 - Confidence gate + EMA: a blank beats a wrong label.
 - Known failure and fix: the camera hangs after a J-Link reset, so we power-cycle after flashing.
@@ -163,7 +164,7 @@ per-instance method (`source/lib/mlek/fwk/executorch/EtModel.cc/.hpp`).
 MT9M114 --MIPI/CPI+DMA--> SRAM frame --M55 HP: crop, resize--> 160x160 RGB
    --M55 HP: float NHWC [0,1]--> [int8 quantize, M55] --Ethos-U85-256: MobileNetV2 (all ops)--> [dequantize, M55]
    --M55 HP: softmax + EMA (alpha 0.3), gate 0.5--> info card (dc_components.json) --> LVGL --> LCD
-PDM mic --background--> M55 HP: MFCC 49x10 --Ethos-U85: DS-CNN, every 0.5 s--> threshold 0.7 --> voice UI
+PDM mic --background--> M55 HP: MFCC 49x10 --Ethos-U85: DS-CNN, every 0.5 s--> threshold 0.5 --> voice UI
 ```
 
 | Workload | Runs on | Cost |
@@ -194,14 +195,15 @@ partition with ~195 KB to spare and keeps NPU time at about 6% of the frame.
 | Ablation: no KD | board-camera sim | 0.804 |
 | Resolution sweep (wave 1) | 128 / 160 / 192 px | 0.581 / 0.653 / 0.632 |
 | `v3_board_ft` (deployed) | held-out board frames, all classes | 35.5% -> 73.0% |
-| Demo build, 5 classes + bg, cutoff 0.5 | held-out board frames | 73% correct, 6% wrong, rest blank; bg labelled 0% |
+| `v4_demo_ft`: same data, trained over the 6 shown classes | held-out demo-class frames, 6-way top-1 | 84.8% (v3: 83.5%) |
+| Demo build, 5 classes + bg, cutoff 0.6 | held-out board frames | 79% correct, 7% wrong, rest blank; bg labelled 0% |
 | Demo build, cutoff 0.35 | held-out board frames | 78% correct, 11% wrong |
 | Demo build, clean held-out photos | dataset val split, 5 classes, PC | 25/28 |
 | KWS `dscnn_m_agc` | test / with board AGC | 94.66% / 94.70% |
 | KWS `dscnn_s_agc` (smaller) | test, 23,180 params, 34 KB | 93.94% |
 | Vision int8 vs float | top-1 agreement, calibration frames | 98.4% |
 
-We use cutoff 0.5 in the demo: a blank beats a wrong label.
+We use cutoff 0.6 in the demo: a blank beats a wrong label.
 
 **Why 5 demo classes.** The model has 16 component classes + background. Through the board camera,
 compute tray, cooling manifold and DPU were confused with each other, and 8 classes had no
