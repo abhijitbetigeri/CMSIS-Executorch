@@ -13,6 +13,8 @@ images stored.
   [npow/alif-mlek-yolo](https://github.com/npow/alif-mlek-yolo).
 - **This pull request** holds our project code in [`dcops-e8/`](dcops-e8). The files keep their MLEK
   paths, so you can copy them over that fork to rebuild.
+- **Trained models:** [abhijitbetigeri/dcops-e8](https://huggingface.co/abhijitbetigeri/dcops-e8) on Hugging Face (deployed `.pte` files, PyTorch
+  weights, ablations, teachers).
 - **Demo video:** `TODO(video link)`
 
 ## How it works
