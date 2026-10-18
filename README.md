@@ -13,7 +13,7 @@ There's no phone, no network, no cloud, and no stored images.
 | **Demo video** | https://abhijitbetigeri.github.io/executorch-alife8/demo.mp4 (also on the landing page, under Demo) |
 | **Full repository** | https://github.com/abhijitbetigeri/executorch-alife8 at commit [`db9df28b`](https://github.com/abhijitbetigeri/executorch-alife8/tree/db9df28b8f85ac7f6d77d2aa8e0e8e1779662e4b) |
 | **Trained models** | https://huggingface.co/abhijitbetigeri/dcops-e8 (deployed `.pte` files, PyTorch weights, ablations, teachers) |
-| **Team** | `TODO(names)` |
+| **Team** | Abhijit Betigeri, Nissan Pow |
 
 This pull request carries our project code in [`dcops-e8/`](dcops-e8). The firmware is built on Arm's
 ML Embedded Evaluation Kit (MLEK) rather than this starter, so the files keep their MLEK paths. The
