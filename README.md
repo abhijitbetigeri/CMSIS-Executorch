@@ -1,9 +1,11 @@
-# DC-Ops on E8: an offline data-center component identifier
+# DCSM-Simplified: an offline data-center component identifier
+
+*DataCenter Service Management, Simplified.*
 
 Arm + ExecuTorch Edge AI Challenge, SFSU, October 17–18 2026. Board: **Alif Ensemble E8 DevKit**
 (Cortex-M55 HP at 400 MHz + Ethos-U85-256).
 
-Secure data centers often ban phones, cameras and cloud services on the floor. DC-Ops on E8 is a
+Secure data centers often ban phones, cameras and cloud services on the floor. DCSM-Simplified is a
 single-purpose handheld that runs fully offline. Point the camera at a component and the LCD names it
 and shows an info card. Then a hands-free inspection checklist runs by voice. No network, and no
 images stored.
