@@ -50,8 +50,8 @@ background. The model knows 16. A build option, `CLS_ALLOWED_MASK`, limits the s
 
 ## Models: distilled, fine-tuned and exported with ExecuTorch
 
-1. **Teacher.** Two ConvNeXt-Base models, trained on 19,203 component crops from our earlier
-   [DC-Ops](https://github.com/abhijitbetigeri/DC-Ops) dataset, reach 97.2% on human-labelled
+1. **Teacher.** Two ConvNeXt-Base models, trained on 19,203 component crops cut from 2,056
+   labelled data-center photos ([`dcops/data/`](https://github.com/abhijitbetigeri/executorch-alife8/tree/main/dcops/data) in the full repo), reach 97.2% on human-labelled
    validation.
 2. **Student.** A MobileNetV2 at 160 px, distilled with simulated board-camera augmentation, reaches
    91.2% on validation photos. Ablations on board-like images: without distillation it drops to
@@ -111,5 +111,6 @@ faces the same side as the LCD. Hold a component, or a photo of one, 5–7 cm in
 ## Team and credits
 
 `TODO(names)`. The E8 camera pipeline is by Nissan Pow
-([alif-mlek-yolo](https://github.com/npow/alif-mlek-yolo)). The dataset and info-card text come from
-our earlier DC-Ops project. Built on Arm MLEK, ExecuTorch 1.1.0 and Vela.
+([alif-mlek-yolo](https://github.com/npow/alif-mlek-yolo)). The component photos come from Roboflow
+Universe datasets under CC BY 4.0; sources are listed in `dcops/data/README.md`. Built on Arm MLEK,
+ExecuTorch 1.1.0 and Vela.
